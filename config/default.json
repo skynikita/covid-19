@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://yangluo1105:yangluo1105@covid-19.aqqrv.mongodb.net/covid-19?retryWrites=true&w=majority"
+}

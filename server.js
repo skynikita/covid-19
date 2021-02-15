@@ -1,8 +1,16 @@
 const express = require('express');
+const connectDB = require('./config/db')
 
 const app = express();
 
-app.get('/', (req, res) => res.send('API RUNNING'))
+//Connect Database
+connectDB();
+
+app.get('/', (req
+              , res) => res.send('API Running'));
+
+//Define Routers
+app.use('/api/data', require('./routes/api/data'))
 
 const PORT = process.env.PORT || 6000;
 
