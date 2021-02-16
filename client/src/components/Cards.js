@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 const Cards = () =>{
-     const [totalCase, setTotalCase] = useState('loading...');
+    const [totalCase, setTotalCase] = useState('loading...');
     const [todayCases, setTodayCases] = useState('loading...');
     const [deaths, setDeaths] = useState('loading...');
     const [active, setActive] = useState('loading...');
