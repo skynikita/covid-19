@@ -1,13 +1,15 @@
 import React, {useState,useEffect} from 'react';
 import {Card, Row, Col, Divider } from 'antd';
 import axios from "axios";
-import {Pie,Bar} from '@ant-design/charts';
+import {Pie,Bar,Rose} from '@ant-design/charts';
 
 const Charts = () => {
     const [totalCase, setTotalCase] = useState('loading...');
     const [todayCases, setTodayCases] = useState('loading...');
     const [deaths, setDeaths] = useState('loading...');
     const [active, setActive] = useState('loading...');
+    const [recovered,setRecovered] = useState('loading...')
+
 
 
     useEffect(() => {
@@ -19,11 +21,13 @@ const Charts = () => {
                     setTodayCases(res.data[0].todayCases)
                     setDeaths(res.data[0].deaths)
                     setActive(res.data[0].active)
+                    setRecovered(res.data[0].recovered)
                 } else {
                     setTotalCase('No Data')
                     setTodayCases('No Data')
                     setDeaths('No Data')
                     setActive('No Data')
+                    setRecovered('No Data')
 
                 }
 
@@ -33,12 +37,12 @@ const Charts = () => {
 
     const data = [
         {
-            type: 'Total Case',
+            type: 'Total Cases',
             value: totalCase,
         },
         {
-            type: 'Today Cases',
-            value: todayCases,
+            type: 'Recovered',
+            value: recovered
         },
         {
             type: 'Deaths',
@@ -48,6 +52,11 @@ const Charts = () => {
             type: 'Active',
             value: active,
         },
+        {
+            type: 'Today Cases',
+            value: todayCases,
+        },
+
     ];
     let config_pie = {
         appendPadding: 10,
@@ -56,7 +65,7 @@ const Charts = () => {
         colorField: 'type',
         radius: 0.9,
         label: {
-            type: 'outer',
+            type: 'inner',
 
             style: {
                 fontSize: 14,
@@ -82,7 +91,17 @@ const Charts = () => {
         },
     };
 
+    let config_rose = {
+        data: data,
+        xField: 'type',
+        yField: 'value',
+        seriesField: 'type',
+        radius: 0.9,
+        legend: { position: 'bottom' },
+    };
+
     return (
+        <>
         <Row justify="space-around" align="middle">
             <Col span={6}>
                 <Pie {...config_pie} />
@@ -91,6 +110,11 @@ const Charts = () => {
                 <Bar {...config_bar} />
             </Col>
         </Row>
+            <Divider />
+        <div>
+            <Rose {...config_rose} />
+        </div>
+        </>
     )
 };
 
