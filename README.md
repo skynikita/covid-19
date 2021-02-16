@@ -3,5 +3,5 @@ Covid-19 visualisation using MERN
 
 # Install
 npm install
-#Run
+# Run
 npm run dev
