@@ -2,6 +2,7 @@ const express = require('express');
 const cron = require('node-cron')
 const connectDB = require('./config/db')
 const axios = require('axios');
+const path = require('path')
 
 const Ausdata = require('./models/Ausdata')
 
@@ -57,11 +58,19 @@ cron.schedule('0 * * * *',function(){
 });
 
 
-app.get('/', (req
-              , res) => res.send('API Running'));
 
 //Define Routers
 app.use('/api/data', require('./routes/api/data'))
+
+if(process.env.NODE_ENV === 'production'){
+    //set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*',(req,res) => {
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+    });
+}
+
 
 const PORT = process.env.PORT || 6000;
 
