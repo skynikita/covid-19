@@ -9,6 +9,7 @@ const Charts = () => {
     const [deaths, setDeaths] = useState('loading...');
     const [active, setActive] = useState('loading...');
     const [recovered,setRecovered] = useState('loading...')
+    const [population, setPopulation] = useState('loading')
 
 
 
@@ -22,18 +23,68 @@ const Charts = () => {
                     setDeaths(res.data[0].deaths)
                     setActive(res.data[0].active)
                     setRecovered(res.data[0].recovered)
+                    setPopulation(res.data[0].population)
                 } else {
                     setTotalCase('No Data')
                     setTodayCases('No Data')
                     setDeaths('No Data')
                     setActive('No Data')
                     setRecovered('No Data')
+                    setPopulation('No Data')
 
                 }
 
             }
         )
-    })
+    });
+
+    const data_pie2 = [
+        {
+            type: 'Total Cases',
+            value: totalCase,
+        },
+        {
+            type: 'Deaths',
+            value: deaths,
+        },
+        ];
+
+    const config_pie2 = {
+        appendPadding: 10,
+        data: data_pie2,
+        angleField: 'value',
+        colorField: 'type',
+        radius: 1,
+        innerRadius: 0.6,
+        label: {
+            type: 'inner',
+            offset: '-50%',
+            content: '{value}',
+            style: {
+                textAlign: 'center',
+                fontSize: 14,
+            },
+        },
+        interactions: [{ type: 'element-selected' }, { type: 'element-active' }],
+        statistic: {
+            title: false,
+            content: {
+                style: {
+                    whiteSpace: 'pre-wrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                },
+                formatter: function formatter() {
+                    return 'Covid-19';
+                },
+            },
+        },
+    };
+
+
+
+
+
 
     const data = [
         {
@@ -91,14 +142,6 @@ const Charts = () => {
         },
     };
 
-    let config_rose = {
-        data: data,
-        xField: 'type',
-        yField: 'value',
-        seriesField: 'type',
-        radius: 0.9,
-        legend: { position: 'bottom' },
-    };
 
     return (
         <>
@@ -112,7 +155,7 @@ const Charts = () => {
         </Row>
             <Divider />
         <div>
-            <Rose {...config_rose} />
+            <Pie {...config_pie2} />
         </div>
         </>
     )
